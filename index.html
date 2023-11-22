@@ -92,12 +92,16 @@
 
                     // 启用发送按钮
                     document.getElementById('sendToBackend').disabled = false;
+
+                    // 自动播放音频
+                    // audioPlayer.play();
                 };
             })
             .catch(error => console.error('访问麦克风时出错：', error));
 
         // 启动录制
         document.getElementById('startRecord').addEventListener('click', () => {
+            audioChunks = []; // 清空音频片段数组
             mediaRecorder.start();
             document.getElementById('startRecord').disabled = true;
             document.getElementById('stopRecord').disabled = false;
@@ -143,6 +147,9 @@
                     // 将文字元素和音频元素添加到页面
                     document.getElementById('audioList').appendChild(textElement);
                     document.getElementById('audioList').appendChild(audioPlayer);
+
+                    // 自动播放音频
+                    audioPlayer.play();
                 })
                 .catch(error => console.error('将数据发送到后端时出错：', error));
         });
