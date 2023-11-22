@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//unpkg.com/layui@2.8.18/dist/css/layui.css" rel="stylesheet">
+    <title>语音对话demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #audioList {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        audio {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>语音对话</h1>
+
+    <button id="startRecord">开始录制</button>
+    <button id="stopRecord" disabled>停止录制</button>
+    <button id="sendToBackend" disabled>发送</button>
+
+    <div id="audioList"></div>
+
+    <script src="js/layui.js"></script>
+    <script>
+        // 初始化音频录制变量
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // 获取用户媒体
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+
+                // 数据可用时的事件处理程序
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                // 录制停止时的事件处理程序
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+
+                    // 创建新的音频元素
+                    const audioPlayer = document.createElement('audio');
+                    audioPlayer.controls = true;
+                    audioPlayer.src = audioUrl;
+
+                    // 创建用于显示的文字元素
+                    const textElement = document.createElement('p');
+                    textElement.textContent = "我的";
+
+                    // 将文字元素和音频元素添加到页面
+                    document.getElementById('audioList').appendChild(textElement);
+                    document.getElementById('audioList').appendChild(audioPlayer);
+
+                    // 启用发送按钮
+                    document.getElementById('sendToBackend').disabled = false;
+                };
+            })
+            .catch(error => console.error('访问麦克风时出错：', error));
+
+        // 启动录制
+        document.getElementById('startRecord').addEventListener('click', () => {
+            mediaRecorder.start();
+            document.getElementById('startRecord').disabled = true;
+            document.getElementById('stopRecord').disabled = false;
+        });
+
+        // 停止录制
+        document.getElementById('stopRecord').addEventListener('click', () => {
+            mediaRecorder.stop();
+            document.getElementById('startRecord').disabled = false;
+            document.getElementById('stopRecord').disabled = true;
+        });
+
+        // 将录制的音频发送到后端
+        document.getElementById('sendToBackend').addEventListener('click', () => {
+            const formData = new FormData();
+            formData.append('file', new File(audioChunks, 'recorded_audio.wav'));
+            var loading = layer.msg('正在思考...', {
+                icon: 16,
+                shade: 0.4,
+                time: false //取消自动关闭
+            });
+
+
+            fetch('request.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    layer.close(loading);
+                    // 处理来自后端的响应
+                    console.log(data);
+
+                    // 创建用于显示的文字元素
+                    const textElement = document.createElement('p');
+                    textElement.textContent = "助手";
+
+                    // 创建音频元素并设置其来源
+                    const audioPlayer = document.createElement('audio');
+                    audioPlayer.controls = true;
+                    audioPlayer.src = data.message;
+
+                    // 将文字元素和音频元素添加到页面
+                    document.getElementById('audioList').appendChild(textElement);
+                    document.getElementById('audioList').appendChild(audioPlayer);
+                })
+                .catch(error => console.error('将数据发送到后端时出错：', error));
+        });
+    </script>
+</body>
+
+</html>
