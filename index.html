@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="//unpkg.com/layui@2.8.18/dist/css/layui.css" rel="stylesheet">
+  <link href="css/voice.css" rel="stylesheet">
+  <link href="css/loading.css" rel="stylesheet">
+  <title>我叫小柠檬</title>
+</head>
+
+<body>
+  <div style="display:none">
+    <span>音色：</span>
+    <select id="timbre">
+      <option value="onyx">onyx</option>
+      <option value="echo">echo</option>
+      <option value="alloy">alloy</option>
+      <option value="fable">fable</option>
+      <option value="nova">nova</option>
+      <option value="shimmer">shimmer</option>
+    </select>
+  </div><br>
+  <div class="content">
+    <div>
+      <h1>你好，我叫小柠檬</h1>
+      <h1 id="emotion"></h1>
+    </div>
+    <div>
+      <div id="audioList">
+        <div class="audio-player">
+          <div class="audio-disc">
+          </div>
+        </div><br>
+        <div id="audio_rep"></div>
+      </div>
+    </div>
+    <div class="anniu">
+      <button id="startRecord"><i class="layui-icon layui-icon-mike"></i> 开始</button>
+      <button id="stopRecord" disabled><i class="layui-icon layui-icon-pause"></i> 停止</button>
+    </div>
+
+  </div>
+  <footer>
+    <p>&copy; 2023 小柠檬&nbsp;开源地址:<a style="color:#1e9fff" href="https://github.com/NangGong/GPT-Voice">GPT-Voice</a></p>
+  </footer>
+  <script src="js/layui.js"></script>
+  <script src="js/voice.js"></script>
+</body>
+
+</html>
