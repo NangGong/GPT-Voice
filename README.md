@@ -8,6 +8,5 @@
 
 然后在request.php文件中填入反代和key
 
-![图片1](img/1.png)
+![图片1](img/3.png)
 
-![图片2](img/2.png)
