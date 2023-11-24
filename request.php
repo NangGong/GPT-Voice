@@ -7,6 +7,14 @@ $apiKey = 'sk-xxxxxxxxxxxxxxxxxxx';
 //gpt模型
 $gptmodel = 'gpt-3.5-turbo-1106';
 
+if($domain==""){
+     echo json_encode(['success' => false, 'message' => '未设置api地址']);
+     return;
+}else if($apiKey==""){
+     echo json_encode(['success' => false, 'message' => '未设置apiKey']);
+     return;
+}
+
 $controller = new Controller($domain, $apiKey);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
