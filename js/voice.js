@@ -93,7 +93,11 @@ function sendAudioToBackend(audioUrl) {
                 }
             }
         })
-        .catch(error => console.error('将数据发送到后端时出错：', error));
+        .catch(error => {
+            layer.close(loading);
+            console.error('将数据发送到后端时出错：', error);
+            layer.msg('请求出错！', { icon: 2 });
+        });
 }
 
 function playAudioFromURL(url) {
