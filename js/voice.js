@@ -59,7 +59,7 @@ function sendAudioToBackend(audioUrl) {
         time: false
     });
 
-    fetch('request.php', {
+    fetch('voiceRequest.php', {
         method: 'POST',
         body: formData
     })
@@ -166,3 +166,74 @@ function createLiElements(num = 10) {
     var liElements = "<ul class='wave-menu'>";
     for (var i = 0; i < num; i++) { liElements += "<li></li>"; } liElements += "</ul>"; return liElements;
 }
+function toggleInput() {
+  var button = document.getElementById("inputbtn");
+  var text = button.innerHTML.trim();
+  var inputdiv = document.getElementById("inputdiv");
+
+  if (inputdiv.style.display === "none") {
+    button.innerHTML = "<i class='layui-icon layui-icon-error'></i> 关闭";
+    inputdiv.style.display = "flex";
+  } else {
+    button.innerHTML = "<i class='layui-icon layui-icon-edit'></i> 文字";
+    inputdiv.style.display = "none";
+  }
+}
+
+function sendButton(){
+    let question = document.getElementById('question').value;
+    sendTextRequest(question);
+}
+
+function sendTextRequest(question) {
+    const formData = new FormData();
+    formData.append('question', question);
+    formData.append('context', JSON.stringify(contextarray));
+    var loading = layer.msg('正在思考...', {
+        icon: 16,
+        shade: 0.4,
+        time: false
+    });
+
+    fetch('textRequest.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            layer.close(loading);
+            document.getElementById("emotion").textContent = getRandomEmoji();
+            document.getElementById('audio_rep').innerHTML = '';
+            document.getElementById('question').value ="";
+            if (data.success == false) {
+                layer.msg(data.message, { icon: 2 });
+                return;
+            }
+            if (isWechat()) {
+                const audioPlayer = document.createElement('audio');
+                audioPlayer.controls = true;
+                audioPlayer.src = data.url;
+                document.getElementById('audio_rep').appendChild(audioPlayer);
+                audioPlayer.play();
+                updateContextArray(data.question, data.answer, 5);
+            } else {
+                try {
+                    playAudioFromURL(data.url);
+                    updateContextArray(data.question, data.answer, 5);
+                } catch (error) {
+                    const audioPlayer = document.createElement('audio');
+                    audioPlayer.controls = true;
+                    audioPlayer.src = data.url;
+                    document.getElementById('audio_rep').appendChild(audioPlayer);
+                    audioPlayer.play();
+                    updateContextArray(data.question, data.answer, 5);
+                }
+            }
+        })
+        .catch(error => {
+            layer.close(loading);
+            console.error('将数据发送到后端时出错：', error);
+            layer.msg('请求出错！', { icon: 2 });
+        });
+}
+

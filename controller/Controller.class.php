@@ -7,7 +7,7 @@ class Controller
     public function __construct($domain, $apiKey)
     {
         $this->domain = $domain;
-        $this->apiKey = $apiKey; 
+        $this->apiKey = $apiKey; // Fix the variable name here
     }
 
     public function generateSpeechFile($inputText, $outputFilePath,$timbre)
@@ -32,15 +32,15 @@ class Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL verification (not recommended in production)
 
         $response = curl_exec($ch);
         $response_json = json_decode($response, true);
         if (isset($response_json['error'])) {
             return json_encode($response);
         } else {
-            file_put_contents($outputFilePath, $response); 
-            
+            file_put_contents($outputFilePath, $response); // Save response as speech file
+            // echo 'Speech file generated successfully!';
         }
 
         curl_close($ch);

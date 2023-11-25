@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="//unpkg.com/layui@2.8.18/dist/css/layui.css" rel="stylesheet">
-  <link href="css/voice.css" rel="stylesheet">
+  <link href="css/voice.css?v1.5" rel="stylesheet">
   <link href="css/loading.css" rel="stylesheet">
   <title>我叫小柠檬</title>
 </head>
@@ -39,14 +39,21 @@
     <div class="anniu">
       <button id="startRecord"><i class="layui-icon layui-icon-mike"></i> 开始</button>
       <button id="stopRecord" disabled><i class="layui-icon layui-icon-pause"></i> 停止</button>
+      <button id="inputbtn" onclick="toggleInput()" ><i class="layui-icon layui-icon-edit" ></i> 文字</button><br>
+      <div class="inputdiv layui-anim layui-anim-upbit" id="inputdiv" style="display:none">
+          <textarea id="question" style="max-height:150px;padding:10px;border-radius:5px;"></textarea>
+          <button id="sendText" onclick="sendButton()"><i class="layui-icon layui-icon-release"></i></button>
+      </div>
+      
+
     </div>
 
   </div>
-  <footer>
+   <footer>
     <p>&copy; 2023 小柠檬&nbsp;开源地址:<a style="color:#1e9fff" href="https://github.com/NangGong/GPT-Voice">GPT-Voice</a></p>
   </footer>
   <script src="js/layui.js"></script>
-  <script src="js/voice.js"></script>
+  <script src="js/voice.js?v1.1"></script>
 </body>
 
 </html>

@@ -1,141 +1,193 @@
 .content {
-    font-family: Arial, sans-serif;
-    text-align: center;
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
 
 h1 {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .anniu button {
-    margin: 15px;
-    width: 100px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 50px;
-    background-color: #16baaa;
-    color: white;
-    cursor: pointer;
+  margin: 10px;
+  width: 100px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 50px;
+  background-color: #16baaa;
+  color: white;
+  cursor: pointer;
+
+}
+
+
+.inputdiv {
+  display: flex;
+  align-items: center;
+  width: 350px;
+  margin: auto;
+  border: 1px solid;
+  border-radius: 6px;
+}
+
+#inputbtn,
+#sendText {
+  background: #1e9fff;
+}
+#sendText{
+  width: 60px;
+}
+.inputdiv textarea {
+  flex: 1;
+  max-height: 150px;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  resize: none;
+
+}
+
+.inputdiv button {
+  margin: 10px;
+  width: 80px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
 
 }
 
 button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 #audioList {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 
 audio {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .anniu {
-    position: fixed;
-    bottom: 130px;
-    width: 100%;
+  position: fixed;
+  bottom: 90px;
+  width: 100%;
 }
 
 
 .audio-player {
-    width: 200px;
-    height: 200px;
-    background-color: #333;
-    border-radius: 50%;
-    position: relative;
-    overflow: hidden;
-    margin: 20px auto;
-    animation: wave-animation2 5s linear infinite;
+  width: 200px;
+  height: 200px;
+  background-color: #333;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  margin: 20px auto;
+  animation: wave-animation2 5s linear infinite;
 }
 
 .audio-disc {
-    width: 80px;
-    height: 80px;
-    background-color: #eaeaea;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    animation: wave-animation 3s linear infinite;
-    transition: transform 0.3s ease;
-    /* 添加过渡效果 */
+  width: 80px;
+  height: 80px;
+  background-color: #eaeaea;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: wave-animation 3s linear infinite;
+  transition: transform 0.3s ease;
+  /* 添加过渡效果 */
 }
 
 @keyframes wave-animation {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg) scale(0.8);
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-        /* 蓝绿色阴影 */
-    }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.8);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+    /* 蓝绿色阴影 */
+  }
 
-    50% {
-        transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
-        box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
-        /* 更大的蓝绿色阴影 */
-    }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
+    /* 更大的蓝绿色阴影 */
+  }
 
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg) scale(0.8);
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-        /* 恢复初始蓝绿色阴影 */
-    }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(0.8);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+    /* 恢复初始蓝绿色阴影 */
+  }
 }
 
 @keyframes wave-animation2 {
-    0% {
-        transform: rotate(0deg) scale(1);
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-        /* 蓝绿色阴影 */
-    }
+  0% {
+    transform: rotate(0deg) scale(1);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+    /* 蓝绿色阴影 */
+  }
 
-    50% {
-        transform: rotate(180deg) scale(1.1);
-        box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
-        /* 更大的蓝绿色阴影 */
-    }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
+    /* 更大的蓝绿色阴影 */
+  }
 
-    100% {
-        transform: rotate(360deg) scale(1);
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-        /* 恢复初始蓝绿色阴影 */
-    }
+  100% {
+    transform: rotate(360deg) scale(1);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+    /* 恢复初始蓝绿色阴影 */
+  }
 }
 
 .audio-controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .audio-controls button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
 }
 
 .audio-controls button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #f2f2f2;
-    text-align: center;
-    padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.layui-layer-msg {
+  min-width: 180px !important;
+  padding: 5px !important;
+  border: none;
+  background: #fff;
+  box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 8px !important;
+}
+
+.layui-network-msg {
+
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+
 }
