@@ -8,8 +8,14 @@ class Controller
     {
         $this->domain = $domain;
         $this->apiKey = $apiKey; // Fix the variable name here
+        if ($this->domain == "") {
+            echo json_encode(['success' => false, 'message' => '未设置api地址']);
+            exit;
+        }else if ($this->apiKey == "") {
+            echo json_encode(['success' => false, 'message' => '未设置apiKey']);
+            exit;
+        }
     }
-
     public function generateSpeechFile($inputText, $outputFilePath,$timbre)
     {
         $url = $this->domain . '/v1/audio/speech';
@@ -37,7 +43,8 @@ class Controller
         $response = curl_exec($ch);
         $response_json = json_decode($response, true);
         if (isset($response_json['error'])) {
-            return json_encode($response);
+            echo json_encode(['success' => false, 'message' => $response_json['error']['message']]);
+            exit;
         } else {
             file_put_contents($outputFilePath, $response); // Save response as speech file
             // echo 'Speech file generated successfully!';
@@ -73,11 +80,12 @@ class Controller
 
         $response = curl_exec($ch);
         curl_close($ch);
-        $response = json_decode($response, true);
-        if (isset($response['error'])) {
-            return json_encode($response);
+        $response_json = json_decode($response, true);
+        if (isset($response_json['error'])) {
+            echo json_encode(['success' => false, 'message' => $response_json['error']['message']]);
+            exit;
         } else {
-            return $response['text'];
+            return $response_json['text'];
         }
     }
 
@@ -100,13 +108,14 @@ class Controller
         curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-        $responsedata = curl_exec($ch);
+        $response = curl_exec($ch);
         curl_close($ch);
-        $responsedata = json_decode($responsedata, true);
-        if (isset($responsedata['error'])) {
-            return json_encode($responsedata);
+        $response_json = json_decode($response, true);
+        if (isset($response_json['error'])) {
+            echo json_encode(['success' => false, 'message' => $response_json['error']['message']]);
+            exit;
         } else {
-            return $responsedata['choices'][0]['message']['content'];
+            return $response_json['choices'][0]['message']['content'];
         }
 
     }
