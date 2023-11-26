@@ -2,14 +2,6 @@
 require_once 'controller/Controller.class.php';
 require_once 'config.php';
 
-if($domain == "") {
-	echo json_encode(['success' => false, 'message' => '未设置api地址']);
-	return;
-} else if($apiKey == "") {
-	echo json_encode(['success' => false, 'message' => '未设置apiKey']);
-	return;
-}
-
 $controller = new Controller($domain, $apiKey);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -32,12 +24,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 			} else {
 				$audioFilePath = $uploadPath;
 				$transcriptionResult = $controller->transcribeAudio($audioFilePath);
-
-				if($controller->isJson($transcriptionResult)) {
-					echo json_encode(['success' => false, 'message' => '请求失败！']);
-					return;
-				}
-
+				
 				$postData = [
 					"model" => $gptmodel,
 					"temperature" => 0.6,
@@ -64,19 +51,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 				$postData = json_encode($postData);
 
 				$inputText = $controller->callOpenAIChatAPI($postData);
-				if($controller->isJson($inputText)) {
-					echo json_encode(['success' => false, 'message' => '请求失败！']);
-					return;
-				}
 
 				$outputFilePath = 'response/speech_'.uniqid('', true).'.mp3';
+				
 				$timbre = isset($_POST['timbre']) ? $_POST['timbre'] : "onyx";
+				
 				$voice = $controller->generateSpeechFile($inputText, $outputFilePath, $timbre);
-				if($controller->isJson($voice)) {
-					echo json_encode(['success' => false, 'message' => '请求失败！']);
-					return;
-				}
-
+				
 				echo json_encode(['success' => true, 'question' => $transcriptionResult, "answer" => $inputText, 'url' => $outputFilePath]);
 
 			}
